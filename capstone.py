@@ -1,7 +1,9 @@
 from cgitb import text
 import streamlit as st 
 import pandas as pd
+import numpy as np
 import plotly.graph_objects as go
+import plotly.express as px
 
 st.set_page_config(layout="wide")
 
@@ -119,4 +121,63 @@ with st.container():
                                 yaxis_title='Inflasi')
         fig_infy.update_xaxes(rangeslider_visible=True)
         st.plotly_chart(fig_infy, use_container_width=True)
-     
+        
+with st.container():
+    #data
+    x_inf = df_inftahunan["Inflasi"][df_inftahunan.index.year<2022].to_numpy()
+    x_tpt = df_tpt["TPT"][df_tpt.index.year<2022].to_numpy()
+    x_gini = df_gini["IndeksGini"].to_numpy()
+    tahun = df_inftahunan.index.year[df_inftahunan.index.year<2022].to_numpy()
+    rinftpt = np.corrcoef(x_inf,x_tpt)
+    rinfgini = np.corrcoef(x_inf,x_gini)
+    st.header("Hubungan Indeks Gini, Inflasi, dan Tingkat Pengangguran Terbuka")
+    st.write("""
+             Hubungan antara tiga variabel kemiskinan di atas akan dilihat menggunakan scatter plot dan korelasi antar variabel. 
+             Analisis digunakan untuk melihat apakah ada pengaruh linier antara variabel satu dan variabel lainnya. Hal ini dibutuhkan
+             karena perolehan data dari variabel satu dan variabel lainnya berbeda. Variabel inflasi merupakan variabel yang datanya 
+             bisa diperoleh lebih cepat. Sehingga kita bisa memprediksikan apabila inflasi mengalami kenaikan atau penurunan maka 
+             variabel yang lain juga akan mengalami perubahan.
+             """)
+    col5, col6 = st.columns(2)
+    with col5:
+        st.subheader("Inflasi dan Tingkat Pengangguran Terbuka")
+        st.markdown(f"""
+             Hubungan antara inflasi dan tingkat pengangguran terbuka diilustrasikan dalam grafik disamping. Dua variabel tersebut cenderung
+             memiliki hubungan yang positif, dapat dilihat dari nilai inflasi yang tinggi cenderung memiliki nilai TPT yang tinggi juga.
+             Hal ini dapat dilihat juga dari nilai korelasi yang positif antara dua variabel tersebut yakni sebesar **{rinftpt[0,1]:.2f}**. 
+             Walaupun tidak memiliki nilai korelasi yang kuat, korelasi antara inflasi dan tingkat pengangguran terbuka memiliki arah yang positif.
+             """)
+    with col6:
+        fig_inftpt = px.scatter(x=x_inf, y=x_tpt)
+        fig_inftpt.update_traces(customdata = tahun,
+            hovertemplate='Inflasi: %{x} <br>TPT: %{y} <br>Tahun: %{customdata}')
+        fig_inftpt.layout.yaxis.tickformat = ',.2%'
+        fig_inftpt.layout.xaxis.tickformat = ',.2%'
+        fig_inftpt.update_layout(title=go.layout.Title(
+                                            text="Scatter Plot Inflasi dan TPT<br><sup>2001 - 2021</sup>",
+                                            xref="paper",
+                                            x=0
+                                        ),
+                                  xaxis_title = 'Inflasi', yaxis_title = 'Tingkat Pengangguran Terbuka')
+        st.plotly_chart(fig_inftpt)
+    col7, col8 = st.columns(2)
+    with col7:
+        st.subheader("Inflasi dan Indeks Gini")
+        st.markdown(f"""
+             Hubungan antara inflasi dan indeks gini diilustrasikan dalam scatter plot disamping. Dua variabel tersebut cenderung
+             memiliki hubungan yang negatif, dapat dilihat dari nilai inflasi yang tinggi cenderung memiliki nilai indeks gini yang lebih rendah.
+             Hal ini dapat dilihat juga dari nilai korelasi yang negatif antara dua variabel tersebut yakni sebesar **{rinfgini[0,1]:.2f}**. 
+             """)
+    with col8:
+        fig_infgini = px.scatter(x=x_inf, y=x_gini)
+        fig_infgini.update_traces(customdata = tahun,
+            hovertemplate='Inflasi: %{x} <br>Indeks Gini: %{y} <br>Tahun: %{customdata}')
+        fig_infgini.layout.yaxis.tickformat = ',.2%'
+        fig_infgini.layout.xaxis.tickformat = ',.2%'
+        fig_infgini.update_layout(title=go.layout.Title(
+                                            text="Scatter Plot Inflasi dan Indeks Gini<br><sup>2001 - 2021</sup>",
+                                            xref="paper",
+                                            x=0
+                                        ),
+                                  xaxis_title = 'Inflasi', yaxis_title = 'Indeks Gini')
+        st.plotly_chart(fig_infgini)
