@@ -7,7 +7,7 @@ st.set_page_config(layout="wide")
 
 df_inf = pd.read_csv("inflasiyoy.csv", sep=";", parse_dates=['Bulan'], index_col=['Bulan'])
 df_tpt = pd.read_csv("tpt.csv", sep=";", parse_dates=['Tahun'], index_col=['Tahun'])
-df_inftahunan = pd.read_csv("inflasitahunan.csv", sep=";", parse_dates=['Tahun'], index_col=['Tahun'])
+df_inftahunan = pd.read_csv("yinf.csv", sep=";", parse_dates=['tahun'], index_col=['tahun'])
 df_gini = pd.read_csv("gini.csv", sep=";", parse_dates=['Tahun'], index_col=['Tahun'])
 
 st.title("Indeks Gini, Inflasi dan Tingkat Pengangguran Terbuka di Indonesia") 
@@ -35,7 +35,9 @@ with st.container():
         st.write("""
                 Indeks Gini menurut World Bank merupakan suatu ukuran ketimpangan dari distribusi pendapatan atau pengeluaran konsumsi
                 antar individu atau rumah tangga dalam suatu perekonomian. Indeksi Gini bernilai antara 0 sampai dengan 1. Nilai
-                indeks gini mendekati satu memiliki arti bahwa perekonomian semakin timpang. Pada tahun 2022
+                indeks gini mendekati satu memiliki arti bahwa perekonomian semakin timpang. Pada tahun 2021 nilai Indeks Gini di Indonesia
+                adalah 37,9% meningkat 0,3%
+                dari tahun sebelumnya.
             """)
         fig_gini = go.Figure()
         fig_gini.add_trace(go.Scatter(y=df_gini["IndeksGini"], x=df_gini.index,
@@ -52,13 +54,11 @@ with st.container():
         st.plotly_chart(fig_gini, use_container_width=True)
 
     with col2:
-        st.header("Inflasi")
+        st.header("Inflasi Bulanan")
         st.write("""
                 Inflasi dapat diartikan sebagai kenaikan harga barang dan jasa secara umum dan terus menerus dalam jangka waktu tertentu.
                 Saat ini Inflasi di Indonesia sedang mengalami peningkatan yang cukup tinggi dibandingkan bulan-bulan sebelumnya. 
-                Pada bulan September tahun 2022 inflasi IHK (yoy) di Indonesia mencapai 5,95%. Inflasi merupakan salah satu hal penting dalam menentukan 
-                kondisi perekonomian, sehingga perlu mendapatkan perhatian serius dari berbagai kalangan khususnya 
-                otoritas moneter yang bertanggung jawab mengendalikan inflasi.
+                Pada bulan September tahun 2022 inflasi Indeks Harga Konsumen (IHK) di Indonesia mencapai 5,95%. 
                 """)
         fig_inf = go.Figure()
         fig_inf.add_trace(go.Scatter(y=df_inf["Inflasi"], x=df_inf.index,
@@ -73,7 +73,7 @@ with st.container():
                                 yaxis_title='Inflasi')
         fig_inf.update_xaxes(rangeslider_visible=True)
         st.plotly_chart(fig_inf, use_container_width=True)
-    
+        
     col3, col4 = st.columns(2)
     with col3:
         st.header("Tingkat Pengangguran Terbuka")
@@ -81,7 +81,8 @@ with st.container():
                 Pengangguran adalah jumlah tenaga kerja dalam perekonomian yang secara aktif mencari pekerjaan tetapi 
                 belum mendapatkannya. Besar kecilnya tingkat pengangguran berdasarkan persentase dari perbandingan 
                 jumlah orang yang menganggur dengan jumlah angkatan kerja. Pengangguran terbuka adalah orang yang termasuk 
-                angkatan kerja akan tetapi tidak bekerja dan tidak mencari pekerjaan.
+                angkatan kerja akan tetapi tidak bekerja dan tidak mencari pekerjaan. TPT tahunan yang digunakan dalam project ini
+                adalah TPT bulan Agustus setiap tahunnya. Sampai dengan Februari 2022, TPT di Indonesia adalah sebesar 5,83%.
                 """)
         fig_tpt = go.Figure()
         fig_tpt.add_trace(go.Scatter(y=df_tpt["TPT"], x=df_tpt.index,
@@ -96,5 +97,26 @@ with st.container():
                             yaxis_title='Tingkat Pengangguran Terbuka')
         fig_tpt.update_xaxes(rangeslider_visible=True)
         st.plotly_chart(fig_tpt, use_container_width=True)
-        
-
+    with col4:
+        st.header("Inflasi Tahunan")
+        st.write("""
+                Inflasi Tahunan atau Inflasi Aktual merupakan data dari inflasi IHK yoy di akhir tahun. Inflasi merupakan salah satu hal penting dalam menentukan 
+                kondisi perekonomian, sehingga perlu mendapatkan perhatian serius dari berbagai kalangan khususnya 
+                otoritas moneter yang bertanggung jawab mengendalikan inflasi. Inflasi Indonesia sampai dengan September 2022 mencapai 5,95%
+                sedangkan target inflasi di Indonesia tahun 2022 adalah 3% 
+                dengan standar deviasi kurang lebih 1%.
+                """)
+        fig_infy = go.Figure()
+        fig_infy.add_trace(go.Scatter(y=df_inftahunan["Inflasi"], x=df_inftahunan.index,
+                                    mode='lines+markers',
+                                    name='lines+markers'))
+        fig_infy.update_layout(title=go.layout.Title(
+                                        text="Inflasi Aktual Indonesia per Tahun <br><sup>Sumber: Bank Indonesia</sup>",
+                                        xref="paper",
+                                        x=0
+                                    ),
+                                xaxis_title='Tahun',
+                                yaxis_title='Inflasi')
+        fig_infy.update_xaxes(rangeslider_visible=True)
+        st.plotly_chart(fig_infy, use_container_width=True)
+     
