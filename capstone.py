@@ -11,8 +11,16 @@ df_inf = pd.read_csv("inflasiyoy.csv", sep=";", parse_dates=['Bulan'], index_col
 df_tpt = pd.read_csv("tpt.csv", sep=";", parse_dates=['Tahun'], index_col=['Tahun'])
 df_inftahunan = pd.read_csv("yinf.csv", sep=";", parse_dates=['tahun'], index_col=['tahun'])
 df_gini = pd.read_csv("gini.csv", sep=";", parse_dates=['Tahun'], index_col=['Tahun'])
+x_inf = df_inftahunan["Inflasi"][df_inftahunan.index.year<2022].to_numpy()
+x_tpt = df_tpt["TPT"][df_tpt.index.year<2022].to_numpy()
+x_gini = df_gini["IndeksGini"].to_numpy()
+tahun = df_inftahunan.index.year[df_inftahunan.index.year<2022].to_numpy()
+rinftpt = np.corrcoef(x_inf,x_tpt)
+rinfgini = np.corrcoef(x_inf,x_gini)
+rtptgini = np.corrcoef(x_tpt,x_gini)
 
 st.title("Indeks Gini, Inflasi dan Tingkat Pengangguran Terbuka di Indonesia") 
+st.caption("Oleh Herdina Kuswari")
 with st.container():
     st.write("""
             Kemiskinan adalah konsep multidimensi yang dapat didefinisikan secara absolut dan relatif. 
@@ -123,13 +131,6 @@ with st.container():
         st.plotly_chart(fig_infy, use_container_width=True)
         
 with st.container():
-    #data
-    x_inf = df_inftahunan["Inflasi"][df_inftahunan.index.year<2022].to_numpy()
-    x_tpt = df_tpt["TPT"][df_tpt.index.year<2022].to_numpy()
-    x_gini = df_gini["IndeksGini"].to_numpy()
-    tahun = df_inftahunan.index.year[df_inftahunan.index.year<2022].to_numpy()
-    rinftpt = np.corrcoef(x_inf,x_tpt)
-    rinfgini = np.corrcoef(x_inf,x_gini)
     st.header("Hubungan Indeks Gini, Inflasi, dan Tingkat Pengangguran Terbuka")
     st.write("""
              Hubungan antara tiga variabel kemiskinan di atas akan dilihat menggunakan scatter plot dan korelasi antar variabel. 
@@ -164,7 +165,7 @@ with st.container():
     with col7:
         st.subheader("Inflasi dan Indeks Gini")
         st.markdown(f"""
-             Hubungan antara inflasi dan indeks gini diilustrasikan dalam scatter plot disamping. Dua variabel tersebut cenderung
+             Hubungan antara inflasi dan indeks gini diilustrasikan dalam *scatter plot* disamping. Dua variabel tersebut cenderung
              memiliki hubungan yang negatif, dapat dilihat dari nilai inflasi yang tinggi cenderung memiliki nilai indeks gini yang lebih rendah.
              Hal ini dapat dilihat juga dari nilai korelasi yang negatif antara dua variabel tersebut yakni sebesar **{rinfgini[0,1]:.2f}**. 
              """)
@@ -181,3 +182,35 @@ with st.container():
                                         ),
                                   xaxis_title = 'Inflasi', yaxis_title = 'Indeks Gini')
         st.plotly_chart(fig_infgini)
+        
+    col9, col10 = st.columns(2)
+    with col9:
+        st.subheader("Tingkat Pengangguran Terbuka dan Indeks Gini")
+        st.markdown(f"""
+            Tingkat Pengangguran Terbuka dan Indeks Gini memiliki arah hubungan yang negatif. Hal ini terlihat dari *scatter plot*
+            disamping, nilai Indeks Gini yang tinggi cenderung memiliki nilai TPT yang rendah. Selain itu, nilai korelasi
+            antara TPT dan Indeks Gini juga menunjukkan arah negatif dan nilai yang cukup kuat yakni sebesar **{rtptgini[0,1]:.2f}**. 
+             """)
+    with col10:
+        fig_tptgini = px.scatter(x=x_tpt, y=x_gini)
+        fig_tptgini.update_traces(customdata = tahun,
+            hovertemplate='TPT: %{x} <br>Indeks Gini: %{y} <br>Tahun: %{customdata}')
+        fig_tptgini.layout.yaxis.tickformat = ',.2%'
+        fig_tptgini.layout.xaxis.tickformat = ',.2%'
+        fig_tptgini.update_layout(title=go.layout.Title(
+                                            text="Scatter Plot TPT dan Indeks Gini<br><sup>2001 - 2021</sup>",
+                                            xref="paper",
+                                            x=0
+                                        ),
+                                  xaxis_title = 'Tingkat Pengangguran Terbuka', yaxis_title = 'Indeks Gini')
+        st.plotly_chart(fig_tptgini)
+
+with st.container():
+    st.header("Kesimpulan")
+    st.markdown(f"""
+             Inflasi, Indeks Gini dan Tingkat Pengangguran Terbuka merupakan beberapa dari banyak variabel yang dapat menunjukkan
+             keadaan kemiskinan di Indonesia. Kombinasi dua dari tiga variabel tersebut yang memiliki hubungan linear terkuat
+             adalah variabel TPT dan Indeks Gini, dengan nilai korelasi mencapai **{rtptgini[0,1]:.2f}**. 
+             Sedangkan variabel yang memiliki arah hubungan positif adalah variabel Inflasi dan Indeks Gini dengan nilai korelasi
+             sebesar **{rinfgini[0,1]:.2f}**.
+             """)
