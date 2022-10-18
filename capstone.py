@@ -42,46 +42,95 @@ with st.container():
 
     with col1:
         st.header("Indeks Gini")
-        st.write("""
+        st.markdown("""
                 Indeks Gini menurut World Bank merupakan suatu ukuran ketimpangan dari distribusi pendapatan atau pengeluaran konsumsi
                 antar individu atau rumah tangga dalam suatu perekonomian. Indeksi Gini bernilai antara 0 sampai dengan 1. Nilai
-                indeks gini mendekati satu memiliki arti bahwa perekonomian semakin timpang. Pada tahun 2021 nilai Indeks Gini di Indonesia
-                adalah 37,9% meningkat 0,3%
+                indeks gini mendekati 1 memiliki arti bahwa perekonomian semakin timpang. 
+                Dari tahun 2001 sampai dengan 2021, nilai indeks gini tertinggi terjadi di tahun **2013** dengan indeks gini sebesar **40,8%**. 
+                Sedangkan indeks gini terendah terjadi pada tahun 2001. Pada tahun 2021 Indeks Gini di Indonesia 
+                mencapai **37,9%** meningkat 0,3% 
                 dari tahun sebelumnya.
             """)
         fig_gini = go.Figure()
-        fig_gini.add_trace(go.Scatter(y=df_gini["IndeksGini"], x=df_gini.index,
+        fig_gini.add_trace(go.Scatter(y=df_gini["IndeksGini"], x=df_gini.index.year,
                                 mode='lines+markers',
                                 name='lines+markers'))
+        fig_gini.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0=2012.5, y0=0.403,
+                            x1=2013.5, y1=0.413,
+                            opacity=0.5,
+                            line_color="red",
+                        )
+        fig_gini.add_annotation(x=2013, y=0.413,
+                            text="Indeks Gini Tertinggi",
+                            showarrow=True,
+                            arrowhead=1)
         fig_gini.update_layout(title=go.layout.Title(
-                                        text="Indeks Gini Indonesia per Tahun <br><sup>Sumber: WDI</sup>",
+                                        text="Indeks Gini Indonesia per Tahun (2001 - 2021) <br><sup>Sumber: WDI</sup>",
                                         xref="paper",
                                         x=0
                                     ),
                             xaxis_title='Tahun',
                             yaxis_title='Indeks Gini')
-        fig_gini.update_xaxes(rangeslider_visible=True)
+        fig_gini.layout.yaxis.tickformat = ',.2%'
         st.plotly_chart(fig_gini, use_container_width=True)
 
     with col2:
         st.header("Inflasi Bulanan")
-        st.write("""
+        st.markdown("""
                 Inflasi dapat diartikan sebagai kenaikan harga barang dan jasa secara umum dan terus menerus dalam jangka waktu tertentu.
                 Saat ini Inflasi di Indonesia sedang mengalami peningkatan yang cukup tinggi dibandingkan bulan-bulan sebelumnya. 
-                Pada bulan September tahun 2022 inflasi Indeks Harga Konsumen (IHK) di Indonesia mencapai 5,95%. 
+                Selama 21 tahun, inflasi di Indonesia cukup fluktuatif. Di bulan November 2005 inflasi di Indonesia mencapai **18,38%**, tercatat
+                sebagai nilai inflasi tertinggi dari tahun 2001 - 2022. Selain November 2005, inflasi di Indonesia naik cukup signifikan di bulan
+                **Mei 2008** dan puncaknya terjadi di bulan **September 2008** dengan nilai inflasi sebesar **12,4%**. Krisis ekonomi global tahun 2008
+                merupakan salah satu pemicu terjadinya inflasi di tahun 2008. Tercatat Pemerintah menaikkan harga BBM pada Mei 2008 yakni 33% 
+                untuk premium dan 28% 
+                untuk solar. Selain di tahun 2005 dan 2008, inflasi di Indonesia meningkat di sekitar tahun 2010 - 2011 dan naik kembali di tahun 2013 - 2014.
+                Sejak Maret 2016, inflasi di Indonesia mencapai nilai tertinggi pada bulan Juli 2022 dengan inflasi IHK (yoy) sebesar 4,94%
+                dan naik kembali di September 2022 menjadi sebesar **5,95%**.
+                
                 """)
         fig_inf = go.Figure()
         fig_inf.add_trace(go.Scatter(y=df_inf["Inflasi"], x=df_inf.index,
                                     mode='lines',
                                     name='lines'))
+        fig_inf.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0="2005-05-01", y0=0.12,
+                            x1="2007-05-01", y1=0.20,
+                            opacity=0.5,
+                            line_color="red",
+                        )
+        fig_inf.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0="2008-01-01", y0=0.08,
+                            x1="2009-05-01", y1=0.14,
+                            opacity=0.5,
+                            line_color="red",
+                        )
+        fig_inf.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0="2010-01-01", y0=0.05,
+                            x1="2012-01-01", y1=0.075,
+                            opacity=0.5,
+                            line_color="red",
+                        )
+        fig_inf.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0="2013-04-01", y0=0.06,
+                            x1="2016-03-01", y1=0.10,
+                            opacity=0.5,
+                            line_color="red",
+                        )
         fig_inf.update_layout(title=go.layout.Title(
-                                        text="Inflasi IHK Indonesia per Bulan (yoy) <br><sup>Sumber: Bank Indonesia</sup>",
+                                        text="Inflasi IHK Indonesia per Bulan (2003 - 2022)<br><sup>Sumber: Bank Indonesia</sup>",
                                         xref="paper",
                                         x=0
                                     ),
                                 xaxis_title='Bulan',
                                 yaxis_title='Inflasi')
-        fig_inf.update_xaxes(rangeslider_visible=True)
+        fig_inf.layout.yaxis.tickformat = ',.2%'
         st.plotly_chart(fig_inf, use_container_width=True)
         
     col3, col4 = st.columns(2)
@@ -95,7 +144,7 @@ with st.container():
                 adalah TPT bulan Agustus setiap tahunnya. Sampai dengan Februari 2022, TPT di Indonesia adalah sebesar 5,83%.
                 """)
         fig_tpt = go.Figure()
-        fig_tpt.add_trace(go.Scatter(y=df_tpt["TPT"], x=df_tpt.index,
+        fig_tpt.add_trace(go.Scatter(y=df_tpt["TPT"], x=df_tpt.index.year,
                                 mode='lines+markers',
                                 name='lines+markers'))
         fig_tpt.update_layout(title=go.layout.Title(
@@ -105,7 +154,7 @@ with st.container():
                                     ),
                             xaxis_title='Tahun',
                             yaxis_title='Tingkat Pengangguran Terbuka')
-        fig_tpt.update_xaxes(rangeslider_visible=True)
+        fig_tpt.layout.yaxis.tickformat = ',.2%'
         st.plotly_chart(fig_tpt, use_container_width=True)
     with col4:
         st.header("Inflasi Tahunan")
@@ -117,7 +166,7 @@ with st.container():
                 dengan standar deviasi kurang lebih 1%.
                 """)
         fig_infy = go.Figure()
-        fig_infy.add_trace(go.Scatter(y=df_inftahunan["Inflasi"], x=df_inftahunan.index,
+        fig_infy.add_trace(go.Scatter(y=df_inftahunan["Inflasi"], x=df_inftahunan.index.year,
                                     mode='lines+markers',
                                     name='lines+markers'))
         fig_infy.update_layout(title=go.layout.Title(
@@ -127,7 +176,7 @@ with st.container():
                                     ),
                                 xaxis_title='Tahun',
                                 yaxis_title='Inflasi')
-        fig_infy.update_xaxes(rangeslider_visible=True)
+        fig_infy.layout.yaxis.tickformat = ',.2%'
         st.plotly_chart(fig_infy, use_container_width=True)
         
 with st.container():
@@ -145,8 +194,7 @@ with st.container():
         st.markdown(f"""
              Hubungan antara inflasi dan tingkat pengangguran terbuka diilustrasikan dalam grafik disamping. Dua variabel tersebut cenderung
              memiliki hubungan yang positif, dapat dilihat dari nilai inflasi yang tinggi cenderung memiliki nilai TPT yang tinggi juga.
-             Hal ini dapat dilihat juga dari nilai korelasi yang positif antara dua variabel tersebut yakni sebesar **{rinftpt[0,1]:.2f}**. 
-             Walaupun tidak memiliki nilai korelasi yang kuat, korelasi antara inflasi dan tingkat pengangguran terbuka memiliki arah yang positif.
+             Hal ini dapat dilihat juga dari nilai korelasi yang positif yang cukup kuat antara dua variabel tersebut yakni sebesar **{rinftpt[0,1]:.2f}**. 
              """)
     with col6:
         fig_inftpt = px.scatter(x=x_inf, y=x_tpt)
@@ -211,6 +259,6 @@ with st.container():
              Inflasi, Indeks Gini dan Tingkat Pengangguran Terbuka merupakan beberapa dari banyak variabel yang dapat menunjukkan
              keadaan kemiskinan di Indonesia. Kombinasi dua dari tiga variabel tersebut yang memiliki hubungan linear terkuat
              adalah variabel TPT dan Indeks Gini, dengan nilai korelasi mencapai **{rtptgini[0,1]:.2f}**. 
-             Sedangkan variabel yang memiliki arah hubungan positif adalah variabel Inflasi dan Indeks Gini dengan nilai korelasi
-             sebesar **{rinfgini[0,1]:.2f}**.
+             Sedangkan variabel yang memiliki arah hubungan positif adalah variabel Inflasi dan TPT dengan nilai korelasi
+             sebesar **{rinftpt[0,1]:.2f}**.
              """)
