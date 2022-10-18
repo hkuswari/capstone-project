@@ -19,7 +19,7 @@ rinftpt = np.corrcoef(x_inf,x_tpt)
 rinfgini = np.corrcoef(x_inf,x_gini)
 rtptgini = np.corrcoef(x_tpt,x_gini)
 
-st.title("Indeks Gini, Inflasi dan Tingkat Pengangguran Terbuka di Indonesia") 
+st.title("Hubungan Indeks Gini, Inflasi dan Tingkat Pengangguran Terbuka di Indonesia") 
 st.caption("Oleh Herdina Kuswari")
 with st.container():
     st.write("""
