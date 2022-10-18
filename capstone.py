@@ -43,7 +43,7 @@ with st.container():
     with col1:
         st.header("Indeks Gini")
         st.markdown("""
-                Indeks Gini menurut World Bank merupakan suatu ukuran ketimpangan dari distribusi pendapatan atau pengeluaran konsumsi
+                **Indeks Gini** menurut *World Bank* merupakan suatu ukuran ketimpangan dari distribusi pendapatan atau pengeluaran konsumsi
                 antar individu atau rumah tangga dalam suatu perekonomian. Indeksi Gini bernilai antara 0 sampai dengan 1. Nilai
                 indeks gini mendekati 1 memiliki arti bahwa perekonomian semakin timpang. 
                 Dari tahun 2001 sampai dengan 2021, nilai indeks gini tertinggi terjadi di tahun **2013** dengan indeks gini sebesar **40,8%**. 
@@ -62,10 +62,9 @@ with st.container():
                             opacity=0.5,
                             line_color="red",
                         )
-        fig_gini.add_annotation(x=2013, y=0.413,
-                            text="Indeks Gini Tertinggi",
-                            showarrow=True,
-                            arrowhead=1)
+        fig_gini.add_annotation(x=2013, y=0.417,
+                            text="40,8%",
+                            showarrow=False)
         fig_gini.update_layout(title=go.layout.Title(
                                         text="Indeks Gini Indonesia per Tahun (2001 - 2021) <br><sup>Sumber: WDI</sup>",
                                         xref="paper",
@@ -79,7 +78,7 @@ with st.container():
     with col2:
         st.header("Inflasi Bulanan")
         st.markdown("""
-                Inflasi dapat diartikan sebagai kenaikan harga barang dan jasa secara umum dan terus menerus dalam jangka waktu tertentu.
+                **Inflasi** dapat diartikan sebagai kenaikan harga barang dan jasa secara umum dan terus menerus dalam jangka waktu tertentu.
                 Saat ini Inflasi di Indonesia sedang mengalami peningkatan yang cukup tinggi dibandingkan bulan-bulan sebelumnya. 
                 Selama 21 tahun, inflasi di Indonesia cukup fluktuatif. Di bulan November 2005 inflasi di Indonesia mencapai **18,38%**, tercatat
                 sebagai nilai inflasi tertinggi dari tahun 2001 - 2022. Selain November 2005, inflasi di Indonesia naik cukup signifikan di bulan
@@ -136,19 +135,70 @@ with st.container():
     col3, col4 = st.columns(2)
     with col3:
         st.header("Tingkat Pengangguran Terbuka")
-        st.write("""
-                Pengangguran adalah jumlah tenaga kerja dalam perekonomian yang secara aktif mencari pekerjaan tetapi 
+        st.markdown("""
+                **Pengangguran** adalah jumlah tenaga kerja dalam perekonomian yang secara aktif mencari pekerjaan tetapi 
                 belum mendapatkannya. Besar kecilnya tingkat pengangguran berdasarkan persentase dari perbandingan 
                 jumlah orang yang menganggur dengan jumlah angkatan kerja. Pengangguran terbuka adalah orang yang termasuk 
-                angkatan kerja akan tetapi tidak bekerja dan tidak mencari pekerjaan. TPT tahunan yang digunakan dalam project ini
-                adalah TPT bulan Agustus setiap tahunnya. Sampai dengan Februari 2022, TPT di Indonesia adalah sebesar 5,83%.
+                angkatan kerja akan tetapi tidak bekerja dan tidak mencari pekerjaan. Data Tingkat Pengangguran Terbuka (TPT) 
+                tahunan yang digunakan dalam project ini adalah TPT bulan Agustus setiap tahunnya.
+                """)
+        st.markdown("""
+                Grafik TPT di Indonesia disajikan dalam gambar di bawah ini. Selama 22 tahun terakhir, TPT di Indonesia mengalami nilai tertinggi
+                pada tahun **2005** dengan tingkat pengangguran terbuka sebesar **11,24%** meningkat 1,38% 
+                dibandingkan tahun sebelumnya. Sedangkan kenaikan tingkat pengangguran terbuka lainnya terjadi di tahun 2011, 2013, 2015 dan 2020 dengan
+                kenaikan tertinggi terjadi di tahun **2020** dari tahun 2019 dengan kenaikan sebesar **1,83%**.
+                Sampai dengan Semester 1 2022, tingkat pengangguran terbuka di Indonesia mencapai 5,83% turun 0,66% 
+                dari tahun 2021.
                 """)
         fig_tpt = go.Figure()
         fig_tpt.add_trace(go.Scatter(y=df_tpt["TPT"], x=df_tpt.index.year,
                                 mode='lines+markers',
                                 name='lines+markers'))
+        fig_tpt.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0=2004.5, y0=0.11,
+                            x1=2005.5, y1=0.115,
+                            opacity=0.5,
+                            line_color="red",
+                        )
+        fig_tpt.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0=2010.5, y0=0.0728,
+                            x1=2011.5, y1=0.0778,
+                            opacity=0.5,
+                            line_color="red",
+                        )
+        fig_tpt.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0=2014.5, y0=0.0593,
+                            x1=2015.5, y1=0.0643,
+                            opacity=0.5,
+                            line_color="red",
+                        )
+        fig_tpt.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0=2019.5, y0=0.0682,
+                            x1=2020.5, y1=0.0732,
+                            opacity=0.5,
+                            line_color="red",
+                        )
+        fig_tpt.add_annotation(x=2005, y=0.117,
+                            text="11,24%",
+                            showarrow=False)
+        fig_tpt.add_annotation(x=2011, y=0.08,
+                            text="7,48%",
+                            showarrow=False)
+        fig_tpt.add_annotation(x=2015, y=0.067,
+                            text="6,18%",
+                            showarrow=False)
+        fig_tpt.add_annotation(x=2020, y=0.075,
+                            text="7,07%",
+                            showarrow=False)
+        fig_tpt.add_annotation(x=2022.2, y=0.0563,
+                            text="5,83%",
+                            showarrow=False)
         fig_tpt.update_layout(title=go.layout.Title(
-                                        text="Tingkat Pengangguran Terbuka di Indonesia per Tahun <br><sup>Sumber: Badan Pusat Statistik</sup>",
+                                        text="Tingkat Pengangguran Terbuka di Indonesia per Tahun (2001 - 2022) <br><sup>Sumber: Badan Pusat Statistik</sup>",
                                         xref="paper",
                                         x=0
                                     ),
@@ -161,26 +211,84 @@ with st.container():
         st.write("""
                 Inflasi Tahunan atau Inflasi Aktual merupakan data dari inflasi IHK yoy di akhir tahun. Inflasi merupakan salah satu hal penting dalam menentukan 
                 kondisi perekonomian, sehingga perlu mendapatkan perhatian serius dari berbagai kalangan khususnya 
-                otoritas moneter yang bertanggung jawab mengendalikan inflasi. Inflasi Indonesia sampai dengan September 2022 mencapai 5,95%
+                otoritas moneter yang bertanggung jawab mengendalikan inflasi. 
+                Sesuai dengan data inflasi bulanan, inflasi pada tahun 2005, 2008, 2010, 2013 dan 2014 merupakan tahun-tahun dengan
+                nilai inflasi yang cukup tinggi dibandingkan tahun lainnya. 
+                Inflasi Indonesia sampai dengan September 2022 mencapai 5,95%
                 sedangkan target inflasi di Indonesia tahun 2022 adalah 3% 
-                dengan standar deviasi kurang lebih 1%.
+                dengan standar deviasi kurang lebih 1%. Apabila inflasi di Indonesia sampai akhir tahun terus meningkat maka inflasi
+                aktual pada tahun 2002 akan melebihi target inflasi di Indonesia. Sehingga diharapkan para pemangku kebijakan dapat 
+                mengendalikan inflasi yang terjadi beberapa bulan terakhir ini.
+                """)
+        st.write("""
+                
                 """)
         fig_infy = go.Figure()
         fig_infy.add_trace(go.Scatter(y=df_inftahunan["Inflasi"], x=df_inftahunan.index.year,
                                     mode='lines+markers',
                                     name='lines+markers'))
         fig_infy.update_layout(title=go.layout.Title(
-                                        text="Inflasi Aktual Indonesia per Tahun <br><sup>Sumber: Bank Indonesia</sup>",
+                                        text="Inflasi Aktual Indonesia per Tahun (2001-2021) <br><sup>Sumber: Bank Indonesia</sup>",
                                         xref="paper",
                                         x=0
                                     ),
                                 xaxis_title='Tahun',
                                 yaxis_title='Inflasi')
+        fig_infy.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0=2004.5, y0=0.165,
+                            x1=2005.5, y1=0.175,
+                            opacity=0.5,
+                            line_color="red",
+                        )
+        fig_infy.add_annotation(x=2005, y=0.18,
+                            text="17,11%",
+                            showarrow=False)
+        fig_infy.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0=2007.5, y0=0.1061,
+                            x1=2008.5, y1=0.1141,
+                            opacity=0.5,
+                            line_color="red",
+                        )
+        fig_infy.add_annotation(x=2008, y=0.12,
+                            text="11,06%",
+                            showarrow=False)
+        fig_infy.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0=2009.5, y0=0.065,
+                            x1=2010.5, y1=0.075,
+                            opacity=0.5,
+                            line_color="red",
+                        )
+        fig_infy.add_annotation(x=2010, y=0.08,
+                            text="6,96%",
+                            showarrow=False)
+        fig_infy.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0=2012.65, y0=0.08,
+                            x1=2013.35, y1=0.09,
+                            opacity=0.5,
+                            line_color="red",
+                        )
+        fig_infy.add_annotation(x=2013, y=0.084,
+                            text="8,38%",
+                            showarrow=False, yshift = 15)
+        fig_infy.add_shape(type="circle",
+                            xref="x", yref="y",
+                            x0=2013.65, y0=0.08,
+                            x1=2014.35, y1=0.09,
+                            opacity=0.5,
+                            line_color="red",
+                        )
+        fig_infy.add_annotation(x=2015.5, y=0.085,
+                            text="8,36%",
+                            showarrow=False)
         fig_infy.layout.yaxis.tickformat = ',.2%'
         st.plotly_chart(fig_infy, use_container_width=True)
         
 with st.container():
-    st.header("Hubungan Indeks Gini, Inflasi, dan Tingkat Pengangguran Terbuka")
+    st.header("Hubungan Antar Variabel")
     st.write("""
              Hubungan antara tiga variabel kemiskinan di atas akan dilihat menggunakan scatter plot dan korelasi antar variabel. 
              Analisis digunakan untuk melihat apakah ada pengaruh linier antara variabel satu dan variabel lainnya. Hal ini dibutuhkan
@@ -197,7 +305,7 @@ with st.container():
              Hal ini dapat dilihat juga dari nilai korelasi yang positif yang cukup kuat antara dua variabel tersebut yakni sebesar **{rinftpt[0,1]:.2f}**. 
              """)
     with col6:
-        fig_inftpt = px.scatter(x=x_inf, y=x_tpt)
+        fig_inftpt = px.scatter(x=x_inf, y=x_tpt, trendline = "ols", trendline_color_override="red")
         fig_inftpt.update_traces(customdata = tahun,
             hovertemplate='Inflasi: %{x} <br>TPT: %{y} <br>Tahun: %{customdata}')
         fig_inftpt.layout.yaxis.tickformat = ',.2%'
@@ -218,7 +326,7 @@ with st.container():
              Hal ini dapat dilihat juga dari nilai korelasi yang negatif antara dua variabel tersebut yakni sebesar **{rinfgini[0,1]:.2f}**. 
              """)
     with col8:
-        fig_infgini = px.scatter(x=x_inf, y=x_gini)
+        fig_infgini = px.scatter(x=x_inf, y=x_gini, trendline = "ols", trendline_color_override="red")
         fig_infgini.update_traces(customdata = tahun,
             hovertemplate='Inflasi: %{x} <br>Indeks Gini: %{y} <br>Tahun: %{customdata}')
         fig_infgini.layout.yaxis.tickformat = ',.2%'
@@ -240,7 +348,7 @@ with st.container():
             antara TPT dan Indeks Gini juga menunjukkan arah negatif dan nilai yang cukup kuat yakni sebesar **{rtptgini[0,1]:.2f}**. 
              """)
     with col10:
-        fig_tptgini = px.scatter(x=x_tpt, y=x_gini)
+        fig_tptgini = px.scatter(x=x_tpt, y=x_gini, trendline = "ols", trendline_color_override="red")
         fig_tptgini.update_traces(customdata = tahun,
             hovertemplate='TPT: %{x} <br>Indeks Gini: %{y} <br>Tahun: %{customdata}')
         fig_tptgini.layout.yaxis.tickformat = ',.2%'
@@ -259,6 +367,10 @@ with st.container():
              Inflasi, Indeks Gini dan Tingkat Pengangguran Terbuka merupakan beberapa dari banyak variabel yang dapat menunjukkan
              keadaan kemiskinan di Indonesia. Kombinasi dua dari tiga variabel tersebut yang memiliki hubungan linear terkuat
              adalah variabel TPT dan Indeks Gini, dengan nilai korelasi mencapai **{rtptgini[0,1]:.2f}**. 
-             Sedangkan variabel yang memiliki arah hubungan positif adalah variabel Inflasi dan TPT dengan nilai korelasi
-             sebesar **{rinftpt[0,1]:.2f}**.
+             Dua variabel yang memiliki arah hubungan positif adalah variabel Inflasi dan TPT dengan nilai korelasi
+             sebesar **{rinftpt[0,1]:.2f}**. Sedangkan berdasarkan nilai korelasi hubungan antara inflasi dan indeks gini cenderung negatif dengan nilai 
+             korelasi sebesar **{rinfgini[0,1]:.2f}**.
+             Untuk mengonfirmasi hubungan antar variabel dari tiga variabel ini diperlukan analis lebih lanjut karena analisis korelasi hanya
+             menjelaskan hubungan linier antar variabel. Ada kemungkinan bahwa hubungan antar variabel yang sudah disajikan di atas bukan hubungan
+             non linier. 
              """)
