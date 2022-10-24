@@ -72,7 +72,6 @@ with st.container():
                                     ),
                             xaxis_title='Tahun',
                             yaxis_title='Indeks Gini')
-        fig_gini.layout.yaxis.tickformat = ',.2%'
         st.plotly_chart(fig_gini, use_container_width=True)
 
     with col2:
@@ -295,9 +294,9 @@ with st.container():
              karena perolehan data dari variabel satu dan variabel lainnya berbeda. Data yang digunakan dalam analisis korelasi ini 
              adalah data tahunan setiap variabel dari tahun 2001 sampai dengan 2021. 
              """)
+    st.subheader("Inflasi dan Tingkat Pengangguran Terbuka")
     col5, col6 = st.columns(2)
     with col5:
-        st.subheader("Inflasi dan Tingkat Pengangguran Terbuka")
         st.markdown(f"""
              Hubungan antara inflasi dan tingkat pengangguran terbuka diilustrasikan dalam grafik disamping. Dua variabel tersebut cenderung
              memiliki hubungan yang positif, dapat dilihat dari nilai inflasi yang tinggi cenderung memiliki nilai TPT yang tinggi juga.
@@ -319,6 +318,11 @@ with st.container():
              menyatakan bahwa secara parsial disimpulkan variabel Inflasi berpengaruh Positif dan signifikan terhadap Pengangguran di Indonesia.
              """) 
     with col6:
+        st.write("""
+            Hasil korelasi ini sejalan dengan beberapa penelitian yang sudah disebutkan, sehingga terdapat kemungkinan bahwa inflasi dan tingkat pengangguran
+            terbuka memiliki hubungan dengan arah yang positif. Akan tetapi, karena nilai korelasi yang tidak cukup kuat maka diperlukan penelitian
+            lebih lanjut untuk menyatakan bahwa inflasi dan tingkat pengangguran terbuka memiliki hubungan yang positif dan signifikan.
+            """) 
         fig_inftpt = px.scatter(x=x_inf, y=x_tpt, trendline = "ols", trendline_color_override="red")
         fig_inftpt.update_traces(customdata = tahun,
             hovertemplate='Inflasi: %{x} <br>TPT: %{y} <br>Tahun: %{customdata}')
@@ -331,24 +335,30 @@ with st.container():
                                         ),
                                   xaxis_title = 'Inflasi', yaxis_title = 'Tingkat Pengangguran Terbuka')
         st.plotly_chart(fig_inftpt)
-        st.info("""
-            Hasil korelasi ini sejalan dengan beberapa penelitian yang sudah disebutkan, sehingga terdapat kemungkinan bahwa inflasi dan tingkat pengangguran
-            terbuka memiliki hubungan dengan arah yang positif. Akan tetapi, karena nilai korelasi yang tidak cukup kuat maka diperlukan penelitian
-            lebih lanjut untuk menyatakan bahwa inflasi dan tingkat pengangguran terbuka memiliki hubungan yang positif dan signifikan.
-            """, icon="ℹ️")
+
+    st.subheader("Inflasi dan Indeks Gini")
     col7, col8 = st.columns(2)
     with col7:
-        st.subheader("Inflasi dan Indeks Gini")
         st.markdown(f"""
              Hubungan antara inflasi dan indeks gini diilustrasikan dalam *scatter plot* disamping. Dua variabel tersebut cenderung
              memiliki hubungan yang negatif, dapat dilihat dari nilai inflasi yang tinggi cenderung memiliki nilai indeks gini yang lebih rendah.
              Hal ini dapat dilihat juga dari nilai korelasi yang negatif antara dua variabel tersebut yakni sebesar **{rinfgini[0,1]:.2f}**. 
+             Nilai koefisien korelasi dari dua variabel ini tidak cukup kuat untuk membuktikan adanya hubungan linear antara inflasi dan indeks gini.
              """)
+        st.markdown("""
+            Hasil penelitian Ihsan & Satrianto (2019) tentang Analisis Kausalitas Inflasi, Ketimpangan Pendapatan, dan Pertumbuhan Ekonomi di Indonesia 
+            menyatakan bahwa inflasi tidak mempengaruhi ketimpangan pendapatan dan ketimpangan pendapatan tidak mempengaruhi 
+            inflasi, tidak terdapat hubungan kausalitas antara inflasi dengan ketimpangan pendapatan.
+            
+            Hal ini juga ditunjukkan oleh penelitian Wijayanti & Aisyah (2022) bahwa inflasi tidak berpengaruh terhadap ketimpangan pendapatan. 
+            Walaupun tingkat inflasi tinggi dan menyebabkan kecenderungan harga-harga barang naik, bagi masyarakat yang memiliki modal besar dan berpenghasilan 
+            tinggi tidak akan terpengaruh terhadap daya beli mereka. Di lain sisi, di saat harga bahan-bahan pokok naik, masyarakat yang berpenghasilan rendah 
+            tidak selalu dirugikan karena mayoritas penduduk Indonesia bekerja di sektor pertanian. Naiknya bahan pokok ini akan meningkatkan pendapatan mereka.
+            """)
     with col8:
         fig_infgini = px.scatter(x=x_inf, y=x_gini, trendline = "ols", trendline_color_override="red")
         fig_infgini.update_traces(customdata = tahun,
             hovertemplate='Inflasi: %{x} <br>Indeks Gini: %{y} <br>Tahun: %{customdata}')
-        fig_infgini.layout.yaxis.tickformat = ',.2%'
         fig_infgini.layout.xaxis.tickformat = ',.2%'
         fig_infgini.update_layout(title=go.layout.Title(
                                             text="Scatter Plot Inflasi dan Indeks Gini<br><sup>2001 - 2021</sup>",
@@ -357,20 +367,28 @@ with st.container():
                                         ),
                                   xaxis_title = 'Inflasi', yaxis_title = 'Indeks Gini')
         st.plotly_chart(fig_infgini)
-        
+    
+    st.subheader("Tingkat Pengangguran Terbuka dan Indeks Gini")
     col9, col10 = st.columns(2)
     with col9:
-        st.subheader("Tingkat Pengangguran Terbuka dan Indeks Gini")
         st.markdown(f"""
-            Tingkat Pengangguran Terbuka dan Indeks Gini memiliki arah hubungan yang negatif. Hal ini terlihat dari *scatter plot*
-            disamping, nilai Indeks Gini yang tinggi cenderung memiliki nilai TPT yang rendah. Selain itu, nilai korelasi
-            antara TPT dan Indeks Gini juga menunjukkan arah negatif dan nilai yang cukup kuat yakni sebesar **{rtptgini[0,1]:.2f}**. 
+            Berdasarkan *scatter plot* disamping dan nilai koefisien korelasi, TPT dan Indeks Gini juga menunjukkan arah negatif dan hubungan linear yang cukup kuat 
+            yakni sebesar **{rtptgini[0,1]:.2f}**. Dibandingkan dengan dua hubungan yang sudah dijelaskan di atas, TPT dan indeks gini memiliki
+            nilai koefisien korelasi tertinggi. Sedangkan beberapa penelitian yang menganalisis hubungan antara TPT dan Indeks Gini menunjukkan 
+            hasil sebagai berikut: 
+            - Rosa & Sovita (2016) dengan penelitiannya tentang Analisis Faktor Distribusi Pendapatan di Pulau Jawa tingkat pengangguran terbuka berpengaruh positif dan signifikan terhadap ketimpangan pendapatan. 
+            - Alamanda (2021) di dalam penelitiannya tentang *The Effect of Economic Growth on Income Inequality: Panel Data Analysis from Fifty Countries* menunjukkan pertumbuhan ekonomi dan tingkat pengangguran berpengaruh positif dan signifikan terhadap ketimpangan pendapatan. 
+            - Yoertiara (2022) menyatakan bahwa Variabel tingkat pengangguran terbuka berpengaruh positif dan signifikan terhadap ketimpangan pendapatan di Pulau Jawa di dalam penelitiannya yang berjudul Pengaruh pertumbuhan ekonomi, IPM, dan tingkat pengangguran terbuka terhadap ketimpangan pendapatan provinsi-provinsi di pulau Jawa.
              """)
+        st.write("""
+            Hasil analisis korelasi dari *project* ini memiliki nilai yang cukup kuat akan tetapi arah yang diperoleh berbeda dengan penelitian-penelitian sebelumnya. 
+            Oleh karena itu diperlukan analisis lebih lanjut agar hasil penelitian lebih *robust* sehingga dapat ditarik kesimpulannya.
+            """)
+        
     with col10:
         fig_tptgini = px.scatter(x=x_tpt, y=x_gini, trendline = "ols", trendline_color_override="red")
         fig_tptgini.update_traces(customdata = tahun,
             hovertemplate='TPT: %{x} <br>Indeks Gini: %{y} <br>Tahun: %{customdata}')
-        fig_tptgini.layout.yaxis.tickformat = ',.2%'
         fig_tptgini.layout.xaxis.tickformat = ',.2%'
         fig_tptgini.update_layout(title=go.layout.Title(
                                             text="Scatter Plot TPT dan Indeks Gini<br><sup>2001 - 2021</sup>",
@@ -395,9 +413,14 @@ with st.container():
              """)
 with st.container():
     st.header("Referensi")
+    st.caption("Alamanda. (2021). The Effect of Economic Growth on Income Inequality:Panel Data Analysis From Fifty Countries. Info Artha, 5(1), 1–10.")
     st.caption("Astuti, I. Y., Istiyani, N., & Yuliati, L. (2019). Pengaruh Pertumbuhan Ekonomi, Tingkat Inflasi, Dan Pertumbuhan Penduduk Terhadap Tingkat Pengangguran Terbuka Di Indonesia. Jurnal Ekonomi Akuntansi Dan Manajemen, 18(1), 52-62.")
+    st.caption("Ihsan, R., Aimon, H., & Satrianto, A. (2019). Analisis Kausalitas Inflasi, Ketimpangan Pendapatan, dan Pertumbuhan Ekonomi di Indonesia. Jurnal Ecogen, 1(3), 701-711.")
     st.caption("Lipton, M., & Ravallion, M. (1995). Chapter 41 poverty and policy. Handbook of Development Economics, 3, 2551–2657.")
     st.caption("Meo, M. S., Khan, V. J., Ibrahim, T. O., Khan, S., Ali, S., & Noor, K. (2018). Asymmetric impact of inflation and unemployment on poverty in Pakistan: new evidence from asymmetric ARDL cointegration. Asia Pacific Journal of Social Work and Development, 28(4), 295-310.")
     st.caption("Mulyati, S. (2009). Analisis Hubungan Inflasi dan Pengangguran di Indonesia periode 1985-2008. Skripsi. Bogor: IPB.")
     st.caption("Qomariyah, I. (2012). Pengaruh Tingkat Inflasi dan Pertumbuhan Ekonomi terhadap Tingkat Pengangguran di Jawa Timur. Jurnal Ekonomi : Universitas Negeri Surabaya.")
     st.caption("Silaban, P. S. M., & Siagian, S. J. (2021). Pengaruh Inflasi Dan Investasi Terhadap Tingkat Pengangguran Terbuka Di Indonesia Periode 2002-2019. Niagawan, 10(2), 109-119.")
+    st.caption("Rosa, Y. Del, & Sovita, I. (2016). Analisis Faktor Distribusi Pendapatan di Pulau Jawa. Faktor Yang Mempengaruhi Ketimpangan Menara Ekonomi, 2(4), 41-52.")
+    st.caption("Wijayanti, E. S., & Aisyah, S. (2022). Pengaruh Pertumbuhan Ekonomi, Investasi Asing, Inflasi, dan Trade Openness terhadap Ketimpangan di Indonesia Tahun 2000-2020. Ekonomis: Journal of Economics and Business, 6(2), 534-540.")
+    st.caption("Yoertiara, R. F. (2022). Pengaruh pertumbuhan ekonomi, IPM, dan tingkat pengangguran terbuka terhadap ketimpangan pendapatan provinsi-provinsi di pulau Jawa.")
