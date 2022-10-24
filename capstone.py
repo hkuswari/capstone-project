@@ -289,12 +289,11 @@ with st.container():
         
 with st.container():
     st.header("Hubungan Antar Variabel")
-    st.write("""
-             Hubungan antara tiga variabel kemiskinan di atas akan dilihat menggunakan scatter plot dan korelasi antar variabel. 
+    st.markdown("""
+             Hubungan antara tiga variabel kemiskinan di atas akan dilihat menggunakan *scatter plot* dan korelasi antar variabel. 
              Analisis digunakan untuk melihat apakah ada pengaruh linier antara variabel satu dan variabel lainnya. Hal ini dibutuhkan
-             karena perolehan data dari variabel satu dan variabel lainnya berbeda. Variabel inflasi merupakan variabel yang datanya 
-             bisa diperoleh lebih cepat. Sehingga kita bisa memprediksikan apabila inflasi mengalami kenaikan atau penurunan maka 
-             variabel yang lain juga akan mengalami perubahan.
+             karena perolehan data dari variabel satu dan variabel lainnya berbeda. Data yang digunakan dalam analisis korelasi ini 
+             adalah data tahunan setiap variabel dari tahun 2001 sampai dengan 2021. 
              """)
     col5, col6 = st.columns(2)
     with col5:
@@ -302,8 +301,23 @@ with st.container():
         st.markdown(f"""
              Hubungan antara inflasi dan tingkat pengangguran terbuka diilustrasikan dalam grafik disamping. Dua variabel tersebut cenderung
              memiliki hubungan yang positif, dapat dilihat dari nilai inflasi yang tinggi cenderung memiliki nilai TPT yang tinggi juga.
-             Hal ini dapat dilihat juga dari nilai korelasi yang positif yang cukup kuat antara dua variabel tersebut yakni sebesar **{rinftpt[0,1]:.2f}**. 
+             Hal ini dapat dilihat juga dari nilai korelasi yang positif yang cukup kuat antara dua variabel tersebut yakni sebesar **{rinftpt[0,1]:.2f}**.
              """)
+        st.markdown(f"""
+             Hasil korelasi ini tidak sesuai dengan Teori Kurva Philips. **A.W. Phillips** menggambarkan sebaran hubungan antara inflasi dengan 
+             tingkat pengangguran didasarkan pada asumsi bahwa inflasi merupakan cerminan dari adanya kenaikan permintaan agregat. Dengan 
+             naiknya permintaan agregat, maka sesuai dengan teori permintaan, jika permintaan naik maka harga akan naik. Dengan tingginya 
+             harga (inflasi) maka untuk memenuhi permintaan tersebut produsen meningkatkan kapasitas produksinya dengan menambah tenaga kerja 
+             (asumsinya tenaga kerja merupakan satu-satunya input yang dapat meningkatkan output). Akibat dari peningkatan permintaan tenaga kerja 
+             maka dengan naiknya harga-harga (inflasi), pengangguran berkurang. 
+             """) 
+        st.markdown(f"""
+             Sedangkan beberapa penelitian di Indonesia seperti Mulyati (2009) tentang Analisis Hubungan Inflasi dan Pengangguran Indonesia 
+             periode 1985-2008: Pendekatan Kurva Phillips , Qomariyah (2012) entang Pengaruh Tingkat Inflasi dan Pertumbuhan Ekonomi terhadap 
+             Tingkat Pengangguran di Jawa Timur menyatakan bahwa tidak ada hubungan kausalitas dan inflasi berpengaruh tidak signifikan terhadap pengangguran.
+             Silaban & Siagian (2021) dalam penelitiannya tentang Pengaruh Inflasi Dan Investasi Terhadap Tingkat Pengangguran Terbuka Di Indonesia Periode 2002-2019 
+             menyatakan bahwa secara parsial disimpulkan variabel Inflasi berpengaruh Positif dan signifikan terhadap Pengangguran di Indonesia.
+             """) 
     with col6:
         fig_inftpt = px.scatter(x=x_inf, y=x_tpt, trendline = "ols", trendline_color_override="red")
         fig_inftpt.update_traces(customdata = tahun,
@@ -317,7 +331,11 @@ with st.container():
                                         ),
                                   xaxis_title = 'Inflasi', yaxis_title = 'Tingkat Pengangguran Terbuka')
         st.plotly_chart(fig_inftpt)
-    col7, col8 = st.columns(2)
+        st.info("""
+            Hasil korelasi ini sejalan dengan beberapa penelitian yang sudah disebutkan, sehingga terdapat kemungkinan bahwa inflasi dan tingkat pengangguran
+            terbuka memiliki hubungan dengan arah yang positif. Akan tetapi, karena nilai korelasi yang tidak cukup kuat maka diperlukan penelitian
+            lebih lanjut untuk menyatakan bahwa inflasi dan tingkat pengangguran terbuka memiliki hubungan yang positif dan signifikan.
+            """, icon="ℹ️")
     with col7:
         st.subheader("Inflasi dan Indeks Gini")
         st.markdown(f"""
