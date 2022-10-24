@@ -336,6 +336,7 @@ with st.container():
             terbuka memiliki hubungan dengan arah yang positif. Akan tetapi, karena nilai korelasi yang tidak cukup kuat maka diperlukan penelitian
             lebih lanjut untuk menyatakan bahwa inflasi dan tingkat pengangguran terbuka memiliki hubungan yang positif dan signifikan.
             """, icon="ℹ️")
+    col7, col8 = st.columns(2)
     with col7:
         st.subheader("Inflasi dan Indeks Gini")
         st.markdown(f"""
