@@ -393,3 +393,11 @@ with st.container():
              menjelaskan hubungan linier antar variabel. Ada kemungkinan bahwa hubungan antar variabel yang sudah disajikan di atas bukan hubungan
              non linier. 
              """)
+with st.container():
+    st.header("Referensi")
+    st.caption("Astuti, I. Y., Istiyani, N., & Yuliati, L. (2019). Pengaruh Pertumbuhan Ekonomi, Tingkat Inflasi, Dan Pertumbuhan Penduduk Terhadap Tingkat Pengangguran Terbuka Di Indonesia. Jurnal Ekonomi Akuntansi Dan Manajemen, 18(1), 52-62.")
+    st.caption("Lipton, M., & Ravallion, M. (1995). Chapter 41 poverty and policy. Handbook of Development Economics, 3, 2551–2657.")
+    st.caption("Meo, M. S., Khan, V. J., Ibrahim, T. O., Khan, S., Ali, S., & Noor, K. (2018). Asymmetric impact of inflation and unemployment on poverty in Pakistan: new evidence from asymmetric ARDL cointegration. Asia Pacific Journal of Social Work and Development, 28(4), 295-310.")
+    st.caption("Mulyati, S. (2009). Analisis Hubungan Inflasi dan Pengangguran di Indonesia periode 1985-2008. Skripsi. Bogor: IPB.")
+    st.caption("Qomariyah, I. (2012). Pengaruh Tingkat Inflasi dan Pertumbuhan Ekonomi terhadap Tingkat Pengangguran di Jawa Timur. Jurnal Ekonomi : Universitas Negeri Surabaya.")
+    st.caption("Silaban, P. S. M., & Siagian, S. J. (2021). Pengaruh Inflasi Dan Investasi Terhadap Tingkat Pengangguran Terbuka Di Indonesia Periode 2002-2019. Niagawan, 10(2), 109-119.")
